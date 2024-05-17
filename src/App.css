@@ -1,20 +1,8 @@
-span::selection{
-    color: black;
-    background-color: white;
-}
-
-div.cmd{
+.terminalTheme{
     color: limegreen;
-    font-weight: 600;
-    font-family: "Courier New", Courier, monospace;
-    font-size: 20px;
-}
-
-.pitchBlack{
-    color: limegreen;
-    font-family: "Courier New", Courier, monospace;
-    font-weight: 600;
-    font-size: 20px;
+    font-family: "Ubuntu Mono", monospace;
+    font-weight: 300;
+    font-size: 14px;
     background-color: black;
     border-color: black;
 }

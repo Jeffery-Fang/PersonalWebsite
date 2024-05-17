@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 let helpMap = {
-  "whoami": "a short descriptions about who I am",
+  "whoami": "a short descriptions about who I am what I know and what I've done",
   "ls": "list files and directories in the current directory",
   "cat": "print the contents of the file",
   "help": "list supported commands with a short description",
@@ -9,16 +9,16 @@ let helpMap = {
 };
 
 let files = [
-  "resume.txt",
+  "skills.txt",
   "projects.txt",
   "contacts.txt"
 ];
 
 let projects = [
-  ["Personal Website", "TBD"],
-  ["ShopMart", "TBD"],
-  ["Specialized Search Engine", "TBD"],
-  ["Quiz CLI App", "TBD"]
+  ["Personal Website", "https://github.com/Jeffery-Fang/PersonalWebsite"],
+  ["ShopMart", "https://github.com/Jeffery-Fang/ShopMart"],
+  ["Specialized Search Engine", "https://github.com/Jeffery-Fang/ShopMart"],
+  ["Quiz CLI App", "https://github.com/Jeffery-Fang/QuizApp"]
 ];
 
 let contacts = [
@@ -28,15 +28,25 @@ let contacts = [
   ["GitHub: ", "https://github.com/Jeffery-Fang"]
 ];
 
-function Line({user, host}){
+let skills = [
+  ["Programming Languages: ", ["JavaScript, HTML/CSS, Python, C++, Java, SQL, C"]],
+  ["Software/Tools: ", ["VSCode, VirtualBox, Linux"]],
+  ["Technologies/Frameworks: ", ["NodeJS, React, Express, MongoDB, PostgreSQL, Git, S3"]]
+];
+
+function CmdLine({user, host}){
+  /**
+   *  Component that displays the line currently being typed on
+   */
+
   return (
     <>
-      <div className = "container-fluid p-2 d-flex gap-2">
-        <div className = "cmd col-1 p-0">
+      <div className = "terminalTheme container-fluid px-2 d-flex gap-2">
+        <div className = "col-auto">
           {user + '@' + host + ':~$'}
         </div>
-        <div className = "col-11 p-0">
-          <span id = "cur">
+        <div className = "col-auto">
+          <span id = "curLine">
           </span>
           <span className = "bg-light" id = "cursor">
             &nbsp;
@@ -47,15 +57,18 @@ function Line({user, host}){
   );
 }
 
-function OldLine({user, host, content, command, id}){
+function OldLine({user, host, content, command}){
+  /**
+   * Component that displays all previous commands along with associated output
+   */
 
   return (
     <>
-      <div className = "container-fluid p-2 pb-0 d-flex gap-2">
-        <div className = "cmd col-1 p-0">
+      <div className = "terminalTheme container-fluid px-2 d-flex gap-2">
+        <div className = "col-auto p-0">
           {user + '@' + host + ':~$'}
         </div>
-        <div className = "col-11 p-0" >
+        <div className = "col-auto p-0" >
           <span>
             {content}
           </span>
@@ -63,7 +76,7 @@ function OldLine({user, host, content, command, id}){
       </div>
       {
         command == 0 && 
-        <div className = "container-fluid p-2 pb-0 d-flex gap-2">
+        <div className = "terminalTheme container-fluid px-2 d-flex">
           <div className = "col p-0" >
             <span>
               Not a valid command type 'help' for supported commands
@@ -73,42 +86,42 @@ function OldLine({user, host, content, command, id}){
       }
       {
         command == 1 &&
-        <HelpList id = {id}/>
+        <HelpList />
       }
       {
         command == 2 &&
-        <Intro />
+        <WhoAmI />
       }
       {
         command == 3 &&
-        <GList content = {files} version = {0} />
+        <GenericList content = {files} version = {0} />
       }
       {
         command == 4 &&
-        <GList content = {projects} version = {1} />
+        <GenericList content = {projects} version = {1} />
       }
       {
         command == 5 &&
-        <GList content = {contacts} version = {2} />
+        <GenericList content = {contacts} version = {3} />
+      }
+      {
+        command == 6 &&
+        <GenericList content = {skills} version = {2} />
       }
     </>
   );
 }
 
 function HelpList(){
+  /**
+   * Component that displays the list of commands with their description
+   */
 
-  let entries = Object.keys(helpMap).map((key) => {
-
+  let entries = Object.keys(helpMap).map((command) => {
     return (
-      <div className = "row" key = {key}>
-        <div className = "col-1">
-          {key}
-        </div>
-        <div className = "col-1">
-          -
-        </div>
-        <div className = "col-10">
-          {helpMap[key]}
+      <div className = "row" key = {command}>
+        <div className = "col-auto">
+          {command + ' - ' + helpMap[command]}
         </div>
       </div>
     );
@@ -116,124 +129,174 @@ function HelpList(){
 
   return (
     <>
-      <div className = "vstack gap-2 p-2 pb-0">
+      <div className = "terminalTheme px-2">
         {entries}
       </div>
     </>
   );
 }
 
-function Intro(){
+function WhoAmI(){
+  /**
+   * Component that display a description of me
+   */
 
   return (
     <>
-      <div className = "vstack gap-2">
-        <div className = "text-start p-2 pb-0">
+      <div className = "terminalTheme container-fluid row px-2">
+        <div className = "col-sm text-start">
           Hi, I'm Jeffery a new grad software engineer who love building things and taking on
-        </div>
-        <div className = "text-start p-2 pb-0">
           new challenges. I'm currently looking for a software engineering position and if you're
+          interested check out 'contacts.txt' for my contact info!
         </div>
-        <div className = "text-start p-2 pb-0">
-          interested check out 'contacts.txt' for my contact info
+        <div className = "col-sm-6">
         </div>
       </div>
     </>
   );
 }
 
-function GList({content, version}){
+function GenericList({content, version}){
+  /**
+   * Generic list component used to generate output for commands
+   */
 
   let entries;
+
   if(version == 0){
     entries = content.map((file) => {
       return (
-        <div className = "col-1 p-2 pb-0" key = {version + file}>
+        <div className = "col-auto px-2" key = {version + file}>
           {file}
         </div>
       );
     });
   }else if(version == 1){
-    entries = content.map((file) => {
+    entries = content.map((project) => {
       return (
-        <a className = "col-1 p-2 pb-0 link-underline link-underline-opacity-0" key = {version + file[0]} href = {file[1]}>
-          {file[0]}
+        <a className = "col-auto px-2 link-underline link-underline-opacity-0" key = {version + project[0]} href = {project[1]}>
+          {project[0]}
         </a>
       );
     });
   }else if(version == 2){
-    entries = content.map((file) => {
+    entries = content.map((skills) => {
       return (
-        <div className = "col-10 p-2 pb-0" key = {version + file[1]}>
-          {file[0] + file[1]}
+        <div className = "col-12 px-2" key = {version + skills[1]}>
+          {skills[0] + skills[1]}
         </div>
       );
     });
-  } 
+  }else if(version == 3){
+    entries = content.map((contact) => {
+      let link = (contact[0] != 'Email: ') ? contact[1] : ("mailto:" + contact[1]);
+      
+      return (
+        <div className = "col-12 px-2 d-flex gap-1" key = {version + contact[1]}>
+          <div className = "col-auto">
+            {contact[0]}
+          </div>
+          {
+            contact[0] != 'Name: ' &&
+            <a className = "terminalTheme col-auto link-underline link-underline-opacity-0" href = {link}>
+              {contact[1]}
+            </a> 
+          }
+           {
+            contact[0] == 'Name: ' &&
+            <div className = "terminalTheme col-auto">
+              {link}
+            </div> 
+          }
+        </div>
+      );
+    });
+  }  
 
   return (
     <>
-      <div>
+    <div className = "p-0">
+      <div className = "terminalTheme container-fluid row d-flex">
         {entries}
-      </div>    
+      </div> 
+    </div>
     </>
   );
 }
 
 function App() {
-  
+  /**
+   *  Top level component that maintains state for the whole application
+   */
+
+  const [introduced, setIntroduced] = useState(false);
   const [id, setID] = useState(0);
   const [history, setHistory] = useState([]);
 
-  useEffect(() =>{
-    let temp = document.getElementById("secret");
-    temp.select();
+  //select the secret text box on load
+  useEffect(() => {
+    handleClick();
   }, []);
+
+  useEffect(() => {
+    document.getElementById("cursor").scrollIntoViewIfNeeded();
+  }, [history]);
 
   function handleClick(e){
     let temp = document.getElementById("secret");
-    temp.select();
+    temp.focus();
+    document.getElementById("cursor").scrollIntoViewIfNeeded();
   }
 
   function handleTyping(e){
-    if(e.key === 'VK_UP'){
-      console.log("UP");
-    }else{
-      let temp = document.getElementById("cur");
-      temp.innerHTML = e.target.value;
-    }
+    let temp = document.getElementById("curLine");
+    temp.innerHTML = e.target.value;
   }
 
+  /**
+   * When enter is pressed determine the command and arguments inputted and add an entry to history
+   * accordingly entries in history are as follows [lineID, lineValue, commandID]
+   */
   function handleNewLine(e){
     if(e.key === 'Enter'){
       let curLine = document.getElementById("secret");
-      let temp = curLine.value.split(' ');
+      let args = curLine.value.split(' ');
       let newHistory = structuredClone(history);
       let newID = id + 1;
 
-      if(!Object.keys(helpMap).includes(temp[0])){
+      if(!Object.keys(helpMap).includes(args[0])){
         newHistory.push([id, curLine.value, 0]);
+
       }else{
-        if(temp[0] == 'cat' && !files.includes(temp[1])){
+        if(args[0] == 'cat' && !files.includes(args[1])){
           newHistory.push([id, curLine.value, 0]);
+
         }else{
-          if(temp[0] == 'whoami'){
+          if(args[0] == 'whoami'){
             newHistory.push([id, curLine.value, 2]);
-          }else if(temp[0] == 'ls'){
+
+          }else if(args[0] == 'ls'){
             newHistory.push([id, curLine.value, 3]);
-          }else if(temp[0] == 'cat'){
-            if(temp[1] == 'projects.txt'){
+
+          }else if(args[0] == 'cat'){
+            if(args[1] == 'projects.txt'){
               newHistory.push([id, curLine.value, 4]);
-            }else if(temp[1] == 'contacts.txt'){
+
+            }else if(args[1] == 'contacts.txt'){
               newHistory.push([id, curLine.value, 5]);
-            }else if(temp[1] == 'resume.txt'){
+
+            }else if(args[1] == 'skills.txt'){
               newHistory.push([id, curLine.value, 6]);
+
             }
-          }else if(temp[0] == 'help'){
+          }else if(args[0] == 'help'){
             newHistory.push([id, curLine.value, 1]);
-          }else if(temp[0] == 'clear'){
+
+          }else if(args[0] == 'clear'){
             newHistory = []
             newID = 0;
+            setIntroduced(true);
+
           }
         }
       }
@@ -241,16 +304,10 @@ function App() {
       setHistory(newHistory);
       setID(newID);
 
-      temp = document.getElementById("cur");
+      let temp = document.getElementById("curLine");
       temp.innerHTML = "";
       curLine.value = "";
 
-    }else if(e.key === 'ArrowUp'){
-      let curLine = document.getElementById("secret");
-      let temp = document.getElementById("cur");
-
-      curLine.value = history[history.length - 1][1];
-      temp.innerHTML = curLine.value;
     }
   }
 
@@ -263,10 +320,16 @@ function App() {
 
   return (
     <>
-      <div className = "vh-100 vw-100 p-0 pitchBlack" id = "console" onClick = {handleClick}>
+      <div className = "vh-100 vw-100 p-0 bg-transparent" id = "console" onClick = {handleClick}>
+        {
+          !introduced &&
+          <div className = "terminalTheme px-2 pt-2">
+            Welcome to my interactive terminal website. For a list of supported commands type 'help'. Enjoy your stay!
+          </div>
+        }
         {entries}
-        <Line user = {"User"} host = {"Host"}/>
-        <input type = "text" id = "secret" spellCheck = {false} maxLength = "130" onChange = {handleTyping} onKeyDown = {handleNewLine}>
+        <CmdLine user = {"User"} host = {"Host"}/>
+        <input type = "text" id = "secret" spellCheck = {false} onChange = {handleTyping} onKeyDown = {handleNewLine}>
         </input>
       </div>
     </>
