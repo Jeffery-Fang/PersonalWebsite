@@ -1,0 +1,43 @@
+span::selection{
+    color: black;
+    background-color: white;
+}
+
+div.cmd{
+    color: limegreen;
+    font-weight: 600;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 20px;
+}
+
+.pitchBlack{
+    color: limegreen;
+    font-family: "Courier New", Courier, monospace;
+    font-weight: 600;
+    font-size: 20px;
+    background-color: black;
+    border-color: black;
+}
+
+@keyframes blink{
+    0% {
+        opacity: 1
+    }
+    100% {
+        opacity: 0
+    }
+}
+
+#cursor{
+    width: 14px;
+    animation: blink 1s cubic-bezier(1, 0, 0, 1) infinite;
+}
+
+#secret{
+    position: relative;
+    bottom: 100%;
+    right: 100%;
+    background: transparent;
+    border: none;
+    outline: none
+}
