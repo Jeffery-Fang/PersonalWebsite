@@ -17,7 +17,7 @@ let files = [
 let projects = [
   ["Personal Website", "https://github.com/Jeffery-Fang/PersonalWebsite"],
   ["ShopMart", "https://github.com/Jeffery-Fang/ShopMart"],
-  ["Specialized Search Engine", "https://github.com/Jeffery-Fang/ShopMart"],
+  ["Specialized Search Engine", "https://github.com/Jeffery-Fang/Specialized-Search-Engine"],
   ["Quiz CLI App", "https://github.com/Jeffery-Fang/QuizApp"]
 ];
 
