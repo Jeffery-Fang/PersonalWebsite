@@ -13,7 +13,7 @@
 </h3>
 
 ---
-I wanted to create a personal project that stands out so I created one that has a style similar to a linux terminal. Just like the a terminal it supports a handful of commands that you can get by running 'help'.
+I wanted to create a personal project that stands out so I created one that has a style similar to a linux terminal. Just like the a terminal it supports a handful of commands that you can get by running 'help'. Click the icon above to check it out!
 
 ## Installation
 
