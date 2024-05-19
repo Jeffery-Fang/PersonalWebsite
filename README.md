@@ -51,6 +51,10 @@ I wanted to create a personal project that stands out so I created one that has 
 
 <br />
 
+https://github.com/Jeffery-Fang/PersonalWebsite/assets/126544955/3cc8455f-6f57-4093-a694-decf4c4e2cf2
+
+*Video Demonstration*
+
 ## Tools & Technologies
 
 - React
