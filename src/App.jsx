@@ -31,7 +31,7 @@ let contacts = [
 let skills = [
   ["Programming Languages: ", ["JavaScript, HTML/CSS, Python, C++, Java, SQL, C"]],
   ["Software/Tools: ", ["VSCode, VirtualBox, Linux"]],
-  ["Technologies/Frameworks: ", ["NodeJS, React, Express, MongoDB, PostgreSQL, Git, S3"]]
+  ["Technologies/Frameworks: ", ["NodeJS, React, Express, MongoDB, PostgreSQL, Git, S3, Bootstrap, Jest"]]
 ];
 
 function CmdLine({user, host}){
